@@ -4,21 +4,15 @@ import javax.persistence.*;
 
 import de.hsba.bi.projectWork.project.Project;
 import de.hsba.bi.projectWork.task.Booking;
-import de.hsba.bi.projectWork.task.Task;
+import lombok.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
 public class User implements Comparable<User> {
@@ -58,9 +52,6 @@ public class User implements Comparable<User> {
     @Basic(optional = false)
     private String role;
 
-    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "assignee")
-    private List<Task> assignedTasks;*/
-
     @ManyToMany(cascade = CascadeType.ALL)
     @OrderBy
     private List<Project> projects;
@@ -79,12 +70,19 @@ public class User implements Comparable<User> {
         return name;
     }
 
-    public User(String name) {
+
+    /*public User(String name) {
         this.name = name;
+        this.projects = new ArrayList<>();
+        this.bookedTimes = new ArrayList<>();
     }
+
     public User(String name, String password, String role) {
         this.name = name;
         this.password = password;
         this.role = role;
-    }
+        this.projects = new ArrayList<>();
+        this.bookedTimes = new ArrayList<>();
+    }*/
+
 }
