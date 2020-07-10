@@ -1,5 +1,6 @@
 package de.hsba.bi.projectWork.user;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +24,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public void save(User user) {
-        userRepository.save(user);
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     public User createUser(RegisterUserForm userForm, String role) throws UserAlreadyExistException {
@@ -35,8 +36,10 @@ public class UserService {
         user.setName(userForm.getName());
         user.setPassword(passwordEncoder.encode(userForm.getPassword()));
         user.setRole(role);
-        this.save(user);
-        return user;
+        user.setProjects(new ArrayList<>());
+        user.setBookedTimes(new ArrayList<>());
+        //user.setAssignedTasks(new ArrayList<>());
+        return this.save(user);
     }
 
     public boolean usernameExists(String name) {
@@ -48,8 +51,23 @@ public class UserService {
     }
 
     public User findByName(String name) {
-        Optional<User> user = userRepository.findByName(name);
-        return user.orElse(null);
+        Optional<User> userOptional = userRepository.findByName(name);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if(user.getProjects() == null) {
+                user.setProjects(new ArrayList<>());
+            }
+            if(user.getBookedTimes() == null) {
+                user.setBookedTimes(new ArrayList<>());
+            }
+            /*if(user.getAssignedTasks() == null) {
+                user.setAssignedTasks(new ArrayList<>());
+            }*/
+            return user;
+        }
+        else {
+            return null;
+        }
     }
 
     public List<User> findUsers() {

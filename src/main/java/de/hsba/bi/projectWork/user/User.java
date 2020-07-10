@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import de.hsba.bi.projectWork.project.Project;
 import de.hsba.bi.projectWork.task.Booking;
+import de.hsba.bi.projectWork.task.Task;
 import lombok.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,6 +60,10 @@ public class User implements Comparable<User> {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @OrderBy
     private List<Booking> bookedTimes;
+
+    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "assignee")
+    @OrderBy
+    private List<Task> assignedTasks;*/
 
     @Override
     public int compareTo(User other) {

@@ -24,14 +24,14 @@ public class Task {
     private String status;
     //private Enum<Status> status;
 
-    /*@ManyToOne(optional = false)
-    private User assignee;*/
+    @ManyToOne(optional = false)
+    private Project project;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "task")
     private List<Booking> times;
 
-    @ManyToOne(optional = false)
-    private Project project;
+    /*@ManyToOne(optional = false)
+    private User assignee;*/
 
     public enum Status {
         IDEA("Idea"),
@@ -42,7 +42,7 @@ public class Task {
 
         private final String displayValue;
 
-        private Status(String displayValue) {
+        Status(String displayValue) {
             this.displayValue = displayValue;
         }
 
@@ -51,16 +51,16 @@ public class Task {
         }
     }
 
+
     public int calcTotalTime() {
         int sum = 0;
-        for (int i = 0; i<this.times.size(); i++) {
-            int time = this.times.get(i).timeSpent;
+        for (Booking booking : this.times) {
+            int time = booking.timeSpent;
             sum = sum + time;
         }
         this.setTotalTime(sum);
         return sum;
     }
-
 
     public Task (String name, String description, int estimation, String status) {
         this.name = name;
