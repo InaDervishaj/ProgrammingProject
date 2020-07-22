@@ -23,8 +23,7 @@ public class UserAdapterService implements UserDetailsService {
         Optional<User> user = repository.findByName(username);
         if (user.isEmpty()) {
             throw new UsernameNotFoundException(username);
-        }
-        else{
+        } else {
             return new UserAdapter(user.get());
         }
     }

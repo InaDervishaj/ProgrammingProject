@@ -22,12 +22,12 @@ public class Booking {
     @Id
     @GeneratedValue
     @Setter(AccessLevel.NONE)
-    Long id;
-    LocalDate date;
-    int timeSpent;
+    private Long id;
+    private LocalDate date;
+    private int timeSpent;
 
     @ManyToOne(optional = false)
-    User user;
+    private User user;
 
     @ManyToOne(optional = false)
     private Task task;

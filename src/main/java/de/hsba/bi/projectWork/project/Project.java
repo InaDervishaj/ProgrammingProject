@@ -35,12 +35,12 @@ public class Project {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "project")
     @OrderBy
-    private List<Booking> bookedTimes =  new ArrayList<>();
+    private List<Booking> bookedTimes = new ArrayList<>();
 
     @Transient
     private transient double usersTimeSpentInProject;
 
-    public Project(String name){
+    public Project(String name) {
         this.name = name;
     }
 

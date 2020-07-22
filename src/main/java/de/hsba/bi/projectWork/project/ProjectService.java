@@ -23,6 +23,15 @@ public class ProjectService {
 
     public Project createNewProject(Project project) {
         // TODO Als Admin kann ich ein neues Projekt anlegen
+        if (project.getMembers() == null) {
+            project.setMembers(new ArrayList<>());
+        }
+        if (project.getTasks() == null) {
+            project.setTasks(new ArrayList<>());
+        }
+        if (project.getBookedTimes() == null) {
+            project.setBookedTimes(new ArrayList<>());
+        }
         return projectRepository.save(project);
     }
 
@@ -42,18 +51,18 @@ public class ProjectService {
         double usersTimeSpentInProject;
 
         // find projects belonging to the logged in user
-        for (Project project: allProjects) {
+        for (Project project : allProjects) {
             if (project.getMembers().contains(user)) {
                 usersProjects.add(project);
             }
         }
 
         // calc the time the user spent working on each project
-        for (Project project: usersProjects) {
+        for (Project project : usersProjects) {
             usersTimeSpentInProject = 0;
-            for (Task task: project.getTasks()) {
-                for (Booking booking: task.getTimes()) {
-                    if(booking.getUser() == user){
+            for (Task task : project.getTasks()) {
+                for (Booking booking : task.getTimes()) {
+                    if (booking.getUser() == user) {
                         usersTimeSpentInProject += booking.getTimeSpent();
                     }
                 }
@@ -72,16 +81,41 @@ public class ProjectService {
 
     public void addUserToProject(UpdateProjectForm updateProjectForm, Long projectId) {
         // TODO Als Admin kann ich andere Nutzer (jeder Rolle) zu meinem Projekt hinzufügen
-        List<User> newUsers  = updateProjectForm.getNewUsers();
+        List<User> newUsers = updateProjectForm.getNewUsers();
         List<User> projectMembers = this.findById(projectId).getMembers();
         Project project = this.findById(projectId);
 
-        for (User newUser: newUsers) {
-            if(!projectMembers.contains(newUser)) {
+        for (User newUser : newUsers) {
+            if (!projectMembers.contains(newUser)) {
                 project.getMembers().add(newUser);
                 newUser.getProjects().add(project);
                 userService.save(newUser);
             }
+            this.createNewProject(project);
+        }
+    }
+
+    public void addUserToProject(List<User> newUsers, Long projectId) {
+        // TODO Als Admin kann ich andere Nutzer (jeder Rolle) zu meinem Projekt hinzufügen
+        List<User> projectMembers = this.findById(projectId).getMembers();
+        Project project = this.findById(projectId);
+
+        for (User newUser : newUsers) {
+            if (!projectMembers.contains(newUser)) {
+                project.getMembers().add(newUser);
+                if (!(newUser.getProjects().size() > 0)) {
+                    newUser.setProjects(new ArrayList<>());
+                }
+                if (!(newUser.getBookedTimes().size() > 0)) {
+                    newUser.setBookedTimes(new ArrayList<>());
+                }
+                if (!(newUser.getAssignedTasks().size() > 0)) {
+                    newUser.setAssignedTasks(new ArrayList<>());
+                }
+                newUser.getProjects().add(project);
+                userService.save(newUser);
+            }
+            // Was ist das?
             this.createNewProject(project);
         }
     }
@@ -98,6 +132,7 @@ public class ProjectService {
                 newUser.getProjects().remove(project);
                 userService.save(newUser);
             }
+            // Was ist das?
             this.createNewProject(project);
         }
     }

@@ -29,13 +29,12 @@ public class TaskService {
     public Task findById(Long id) {
         Optional<Task> optionalTask = taskRepository.findById(id);
 
-        if(optionalTask.isPresent()){
+        if (optionalTask.isPresent()) {
             Task task = optionalTask.get();
             task.calcTotalTime();
             taskRepository.save(task);
             return task;
-        }
-        else {
+        } else {
             // TODO throw an exception
             return null;
         }
@@ -44,18 +43,19 @@ public class TaskService {
     public List<Task> findAll() {
         return taskRepository.findAll();
     }
+
     public List<Task> findTasksByStatus(String status) {
         if (status != null) {
             if (status.equals("Idea") || status.equals("Planned") || status.equals("wip") || status.equals("Testing") || status.equals("Done")) {
                 List<Task> allTasks = taskRepository.findAll();
                 List<Task> tasks = new ArrayList<>();
 
-                if(status.equals("wip")){
+                if (status.equals("wip")) {
                     status = "Work in progress";
                 }
 
-                for (Task task: allTasks) {
-                    if(task.getStatus().equals(status)) {
+                for (Task task : allTasks) {
+                    if (task.getStatus().equals(status)) {
                         tasks.add(task);
                     }
                 }
@@ -64,10 +64,11 @@ public class TaskService {
         }
         return this.findAll();
     }
+
     public List<Task> findTasksByStatusAndUser(String status) {
         User user = userService.findCurrentUser();
         List<Task> tasks = this.findTasksByStatus(status);
-        if(tasks.size() > 0) {
+        if (tasks.size() > 0) {
             tasks.removeIf(task -> !task.getProject().getMembers().contains(user));
         }
         return tasks;
@@ -85,7 +86,7 @@ public class TaskService {
         return remainingStatuses;
     }
 
-    public void save (Task task) {
+    public void save(Task task) {
         taskRepository.save(task);
     }
 
@@ -98,8 +99,7 @@ public class TaskService {
             tasks.add(task);
             taskRepository.save(task);
             projectRepository.save(project);
-        }
-        else {
+        } else {
             // TODO throw an expection
         }
         return task;

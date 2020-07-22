@@ -12,8 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 
 
@@ -42,6 +44,12 @@ public class UserManagerController {
         return "userManager/projects";
     }
 
+
+    @PostMapping("/setDueDate/{taskId}")
+    public String setDueDate(@PathVariable("taskId") Long taskId, BindingResult bindingResult) {
+        return "userManager/projects";
+    }
+
     @GetMapping("/viewTask/{taskId}")
     public String viewTask(@PathVariable("taskId") Long taskId, Model model) {
         Task task = taskService.findById(taskId);
@@ -53,12 +61,21 @@ public class UserManagerController {
         return "userManager/viewTask";
     }
 
+    @PostMapping("/editTask/{taskId}")
+    public String update(@PathVariable("taskId") Long taskId, @ModelAttribute("taskForm") @Valid TaskForm form, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "redirect:/userManager/viewTask/" + taskId;
+        }
+        taskService.editTask(taskId, form);
+        return "redirect:/userManager/viewTask/" + taskId;
+    }
+
     @PostMapping("/deleteBookedTime")
     public String deleteBookedTime(@RequestParam("taskId") Long taskId, @RequestParam("bookingId") Long bookingId) {
         Task task = taskService.findById(taskId);
         Booking booking = bookingService.findById(bookingId);
         bookingService.deleteBookedTime(task, booking);
-        return "redirect:/userManager/viewTask/"+taskId;
+        return "redirect:/userManager/viewTask/" + taskId;
     }
 
 
@@ -69,8 +86,7 @@ public class UserManagerController {
             if (status.equals("Idea") || status.equals("Planned") || status.equals("wip") || status.equals("Testing") || status.equals("Done")) {
                 model.addAttribute("tasks", taskService.findTasksByStatus(status));
             }
-        }
-        else {
+        } else {
             model.addAttribute("tasks", taskService.findAll());
         }
         return "userManager/tasks";

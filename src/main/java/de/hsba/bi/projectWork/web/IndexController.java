@@ -25,7 +25,13 @@ public class IndexController {
 
     private final UserService userService;
 
-    @GetMapping
+
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
+
+    @GetMapping("/dashboard")
     public String dashboard(Model model) {
         model.addAttribute("authenticatedUser", userService.findCurrentUser());
         model.addAttribute("user", new User());
@@ -44,7 +50,7 @@ public class IndexController {
     @GetMapping("/login")
     public String login() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth instanceof AnonymousAuthenticationToken ? "login" : "redirect:/";
+        return auth instanceof AnonymousAuthenticationToken ? "login" : "redirect:/dashboard";
     }
 
 
@@ -91,8 +97,7 @@ public class IndexController {
                 model.addAttribute("changePasswordForm", changePasswordForm);
                 model.addAttribute("message", "You've successfully changed your password.");
                 return "account";
-            }
-            catch (IncorrectPasswordException ipEx) {
+            } catch (IncorrectPasswordException ipEx) {
                 model.addAttribute("user", userService.findCurrentUser());
                 model.addAttribute("changePasswordForm", changePasswordForm);
                 return "account";

@@ -1,25 +1,30 @@
 package de.hsba.bi.projectWork.init;
 
 import de.hsba.bi.projectWork.project.Project;
+import de.hsba.bi.projectWork.project.ProjectRepository;
 import de.hsba.bi.projectWork.project.ProjectService;
 import de.hsba.bi.projectWork.task.BookingService;
 import de.hsba.bi.projectWork.task.Task;
 import de.hsba.bi.projectWork.task.TaskService;
 import de.hsba.bi.projectWork.user.User;
+import de.hsba.bi.projectWork.user.UserRepository;
 import de.hsba.bi.projectWork.user.UserService;
 import de.hsba.bi.projectWork.web.project.UpdateProjectForm;
 import de.hsba.bi.projectWork.web.user.RegisterUserForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class UserInitializr {
 
@@ -31,10 +36,10 @@ public class UserInitializr {
 
     @EventListener(ApplicationStartedEvent.class)
     public void init() {
-        /*if (!userService.findAll().isEmpty()) {
+        if (!userService.findAll().isEmpty()) {
             // prevent initialisation if DB is not empty
             return;
-        }*/
+        }
         this.initAdmins();
         this.initManager();
         this.initFirstProject();
@@ -63,11 +68,11 @@ public class UserInitializr {
         User claudia = userService.createUser(new RegisterUserForm("claudia", "1234567890", "1234567890"), "DEVELOPER");
         User patrick = userService.createUser(new RegisterUserForm("patrick", "1234567890", "1234567890"), "DEVELOPER");
         User walter = userService.createUser(new RegisterUserForm("walter", "1234567890", "1234567890"), "DEVELOPER");
-        List <User>  usersFirstProject = new ArrayList<>(Arrays.asList(petra, sandra, brigitte, conny, claudia, patrick, walter));
+        List<User> usersFirstProject = new ArrayList<>(Arrays.asList(petra, sandra, brigitte, conny, claudia, patrick, walter));
 
         // create the project
         Project firstProject = projectService.createNewProject(new Project("Amazing HR Strategy"));
-        projectService.addUserToProject(new UpdateProjectForm(usersFirstProject), firstProject.getId());
+        projectService.addUserToProject(usersFirstProject, firstProject.getId());
 
         // create tasks
         Task task1 = taskService.addNewTask(new Task("Create a Company Page on Facebook", "In order to attract possible applicants our company has to be introduced on social media. A facebook page has to be created an filled with content.", 3, "Testing"), firstProject.getId());
@@ -126,4 +131,5 @@ public class UserInitializr {
         Project firstProject = projectService.createNewProject(new Project("Brand Pages"));
         projectService.addUserToProject(new UpdateProjectForm(usersFirstProject), firstProject.getId());
     }
+
 }

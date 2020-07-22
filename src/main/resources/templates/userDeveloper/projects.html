@@ -48,13 +48,14 @@ Find a more elegant way to add a task
                                             </td>
                                             <td th:text="${task.status}"></td>
                                             <td>
-                                                <!--<div th:if="${task.assignee != null}" th:text="${task.assignee}"></div>
-                                                <div th:if="${task.assignee == null}" th:text="'This task doen´t have an assignee yet!'"></div>-->
+                                                <div th:if="${task.assignee != null}" th:text="${task.assignee}"></div>
+                                                <div th:if="${task.assignee == null}" th:text="'Not set'"></div>
                                             </td>
                                             <td th:text="${task.estimation}"></td>
                                             <td th:text="${task.totalTime}"></td>
                                         </tr>
                                         <tr>
+                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -66,6 +67,7 @@ Find a more elegant way to add a task
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>

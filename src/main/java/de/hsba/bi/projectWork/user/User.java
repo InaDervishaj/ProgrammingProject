@@ -22,6 +22,8 @@ public class User implements Comparable<User> {
     public static String DEVELOPER_ROLE = "DEVELOPER";
     public static String MANAGER_ROLE = "MANAGER";
 
+
+    // TODO move to UserService
     public static String getCurrentUsername() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
@@ -30,6 +32,7 @@ public class User implements Comparable<User> {
         return null;
     }
 
+    // TODO delete
     public static List<String> getRoles() {
         List<String> roles = new ArrayList<>();
         roles.add(ADMIN_ROLE);
@@ -61,9 +64,9 @@ public class User implements Comparable<User> {
     @OrderBy
     private List<Booking> bookedTimes;
 
-    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "assignee")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "assignee")
     @OrderBy
-    private List<Task> assignedTasks;*/
+    private List<Task> assignedTasks;
 
     @Override
     public int compareTo(User other) {

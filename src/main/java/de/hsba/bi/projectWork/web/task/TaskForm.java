@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 
 import de.hsba.bi.projectWork.project.Project;
 import de.hsba.bi.projectWork.task.Booking;
+import de.hsba.bi.projectWork.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,8 @@ public class TaskForm {
 
     @NotNull(message = "Please enter a name.")
     private String name;
+
+    private User assignee;
 
     @NotEmpty(message = "Please enter a description.")
     private String description;

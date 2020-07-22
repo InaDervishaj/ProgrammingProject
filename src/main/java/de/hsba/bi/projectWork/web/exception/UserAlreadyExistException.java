@@ -10,7 +10,7 @@ import javax.naming.AuthenticationException;
 @ResponseStatus(HttpStatus.FORBIDDEN)
 public class UserAlreadyExistException extends RuntimeException {
 
-    public UserAlreadyExistException(String msg){
+    public UserAlreadyExistException(String msg) {
         super(msg);
     }
 

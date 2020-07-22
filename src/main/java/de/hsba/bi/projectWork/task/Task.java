@@ -5,6 +5,7 @@ import de.hsba.bi.projectWork.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,7 @@ public class Task {
     private int estimation;
     private int totalTime;
     private String status;
+    private LocalDate dueDate;
     //private Enum<Status> status;
 
     @ManyToOne(optional = false)
@@ -30,8 +32,8 @@ public class Task {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "task")
     private List<Booking> times;
 
-    /*@ManyToOne(optional = false)
-    private User assignee;*/
+    @ManyToOne
+    private User assignee;
 
     public enum Status {
         IDEA("Idea"),
@@ -55,14 +57,14 @@ public class Task {
     public int calcTotalTime() {
         int sum = 0;
         for (Booking booking : this.times) {
-            int time = booking.timeSpent;
+            int time = booking.getTimeSpent();
             sum = sum + time;
         }
         this.setTotalTime(sum);
         return sum;
     }
 
-    public Task (String name, String description, int estimation, String status) {
+    public Task(String name, String description, int estimation, String status) {
         this.name = name;
         this.description = description;
         this.estimation = estimation;

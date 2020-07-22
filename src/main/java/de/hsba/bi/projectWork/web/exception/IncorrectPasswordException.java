@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 @ResponseStatus(HttpStatus.FORBIDDEN)
-public class IncorrectPasswordException extends RuntimeException{
+public class IncorrectPasswordException extends RuntimeException {
 
-    public IncorrectPasswordException(String msg){
+    public IncorrectPasswordException(String msg) {
         super(msg);
     }
 }

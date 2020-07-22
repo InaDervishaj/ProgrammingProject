@@ -25,11 +25,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/userManager/**").hasRole(User.MANAGER_ROLE)              // endpoint for managers
                 .anyRequest().authenticated()
                 .and()
-            .formLogin()
+                .formLogin()
                 .loginPage("/login")
                 .permitAll()
                 .and()
-            .logout()
+                .logout()
                 .logoutSuccessUrl("/")
                 .permitAll();
     }

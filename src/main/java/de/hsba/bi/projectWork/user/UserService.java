@@ -38,7 +38,7 @@ public class UserService {
         user.setRole(role);
         user.setProjects(new ArrayList<>());
         user.setBookedTimes(new ArrayList<>());
-        //user.setAssignedTasks(new ArrayList<>());
+        user.setAssignedTasks(new ArrayList<>());
         return this.save(user);
     }
 
@@ -54,18 +54,17 @@ public class UserService {
         Optional<User> userOptional = userRepository.findByName(name);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if(user.getProjects() == null) {
+            if (user.getProjects() == null) {
                 user.setProjects(new ArrayList<>());
             }
-            if(user.getBookedTimes() == null) {
+            if (user.getBookedTimes() == null) {
                 user.setBookedTimes(new ArrayList<>());
             }
-            /*if(user.getAssignedTasks() == null) {
+            if (user.getAssignedTasks() == null) {
                 user.setAssignedTasks(new ArrayList<>());
-            }*/
+            }
             return user;
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -99,9 +98,9 @@ public class UserService {
             }
 
             // actually change password
-            if(changePasswordForm.getPassword().equals(changePasswordForm.getMatchingPassword())) {
-            user.setPassword(passwordEncoder.encode(changePasswordForm.getPassword()));
-            this.save(user);
+            if (changePasswordForm.getPassword().equals(changePasswordForm.getMatchingPassword())) {
+                user.setPassword(passwordEncoder.encode(changePasswordForm.getPassword()));
+                this.save(user);
             }
         }
 
@@ -111,7 +110,7 @@ public class UserService {
     public boolean changeRole(Long id, String role) {
         // TODO Als Admin kann ich die Rollen anderer Nutzer ändern
         Optional<User> userOptional = userRepository.findById(id);
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setRole(role);
             userRepository.save(user);

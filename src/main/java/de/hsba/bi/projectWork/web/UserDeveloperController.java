@@ -71,10 +71,10 @@ public class UserDeveloperController {
     @PostMapping("/editTask/{taskId}")
     public String update(@PathVariable("taskId") Long taskId, @ModelAttribute("taskForm") @Valid TaskForm form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "redirect:/userDeveloper/viewTask/"+taskId;
+            return "redirect:/userDeveloper/viewTask/" + taskId;
         }
         taskService.editTask(taskId, form);
-        return "redirect:/userDeveloper/viewTask/"+taskId;
+        return "redirect:/userDeveloper/viewTask/" + taskId;
     }
 
 
@@ -82,7 +82,7 @@ public class UserDeveloperController {
     @PostMapping("/bookTime")
     public String bookTime(@RequestParam("taskId") Long taskId, @RequestParam("projectId") Long projectId, @RequestParam("date") String date, @RequestParam("time") int time) {
         bookingService.bookTime(taskId, projectId, time, date, userService.findCurrentUser());
-        return "redirect:/userDeveloper/viewTask/"+taskId;
+        return "redirect:/userDeveloper/viewTask/" + taskId;
     }
 
 

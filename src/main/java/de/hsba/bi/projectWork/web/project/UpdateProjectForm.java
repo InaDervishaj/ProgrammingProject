@@ -13,10 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 public class UpdateProjectForm {
 
-        List<User> newUsers;
+    List<User> newUsers;
 
-        public UpdateProjectForm (List<User> users) {
-                this.newUsers = users;
-        }
+    public UpdateProjectForm(List<User> users) {
+        this.newUsers = users;
+    }
 
 }

@@ -1,20 +1,240 @@
 <!doctype html>
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <header th:insert="fragments/header"></header>
+<script src="https://unpkg.com/feather-icons"></script>
+<style>
+    .scroll-box {
+        overflow-y: scroll;
+        height: 300px;
+        padding: 1rem
+    }
+</style>
 <body>
 
 <div class="wrapper">
 
     <div class="container marketing">
 
-        <!--Section for managers-->
+        <!--Section for admins-->
         <div sec:authorize="hasRole('MANAGER')">
             <h1>Dashboard</h1><br>
-        </div>
+
+            <div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">Goal Completion</div>
+                            <div class="card-body">
+                                <div class="scroll-box">
+                                    <div class="container">
+                                        <div>
+                                            <div>Project 1</div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <p></p>
+                                        </div>
+                                        <div>
+                                            <div>Project 3</div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <p></p>
+                                        </div>
+                                        <div>
+                                            <div>Project 4</div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <p></p>
+                                        </div>
+                                        <div>
+                                            <div>Project 2</div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">Almost due Tasks</div>
+                            <div class="card-body">
+                                <div class="scroll-box">
+                                    <div class="list-group">
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Present our company on Kununu</h5>
+                                                <small>Amazing HR Strategy</small>
+                                            </div>
+                                            <p class="mb-1">Kununu is a website where employees can rate their employer. I heard that nowadays many jobseekers search potential employers via Kununu so being present there might make sense.</p>
+                                            <small class="text-muted">Assigned to sandra</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Consider refurbishing the bathrooms</h5>
+                                                <small class="text-muted">Renovate the Office</small>
+                                            </div>
+                                            <p class="mb-1">The bathrooms have lastly been renovated in 2000... Because currently everything is being renovated no one uses them anyway so it makes sense to carry out a renovation. </p>
+                                            <small class="text-muted">Assigned to mario.</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Get another Offer for Parquet Installation</h5>
+                                                <small class="text-muted">Renovate the Office</small>
+                                            </div>
+                                            <p class="mb-1">Wonderful Floors inc. cancelled on us so that we have to find another firm that can do the job.</p>
+                                            <small class="text-muted">Assigned to daniel</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Offer Internships</h5>
+                                                <small class="text-muted">Amazing HR Strategy</small>
+                                            </div>
+                                            <p class="mb-1">At the moment we do not offer pupils or students the opportunity to make an internship in one of our departsments. However, this could be highly beneficial in order to attract young and qualified personnel!</p>
+                                            <small class="text-muted">Assigned to brigitte</small>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">Suggested Tasks</div>
+                            <div class="card-body">
+                                <div class="scroll-box">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Cras justo odio
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right;">
+                                                <button type="button" class="btn btn-success">
+                                                    <svg id="i-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 20 L12 28 30 4" />
+                                                    </svg>
+                                                </button>
+                                                <button type="button" class="btn btn-danger">
+                                                    <svg id="i-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 30 L30 2 M30 30 L2 2" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Dapibus ac facilisis in
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right;">
+                                                <button type="button" class="btn btn-success">
+                                                    <svg id="i-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 20 L12 28 30 4" />
+                                                    </svg>
+                                                </button>
+                                                <button type="button" class="btn btn-danger">
+                                                    <svg id="i-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 30 L30 2 M30 30 L2 2" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Morbi leo risus
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right;">
+                                                <button type="button" class="btn btn-success">
+                                                    <svg id="i-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 20 L12 28 30 4" />
+                                                    </svg>
+                                                </button>
+                                                <button type="button" class="btn btn-danger">
+                                                    <svg id="i-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 30 L30 2 M30 30 L2 2" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Porta ac consectetur ac
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right;">
+                                                <button type="button" class="btn btn-success">
+                                                    <svg id="i-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 20 L12 28 30 4" />
+                                                    </svg>
+                                                </button>
+                                                <button type="button" class="btn btn-danger">
+                                                    <svg id="i-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 30 L30 2 M30 30 L2 2" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Vestibulum at eros
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right;">
+                                                <button type="button" class="btn btn-success">
+                                                    <svg id="i-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 20 L12 28 30 4" />
+                                                    </svg>
+                                                </button>
+                                                <button type="button" class="btn btn-danger">
+                                                    <svg id="i-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 30 L30 2 M30 30 L2 2" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Porta ac consectetur ac
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right;">
+                                                <button type="button" class="btn btn-success">
+                                                    <svg id="i-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 20 L12 28 30 4" />
+                                                    </svg>
+                                                </button>
+                                                <button type="button" class="btn btn-danger">
+                                                    <svg id="i-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 30 L30 2 M30 30 L2 2" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">Vestibulum at eros
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right;">
+                                                <button type="button" class="btn btn-success">
+                                                    <svg id="i-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 20 L12 28 30 4" />
+                                                    </svg>
+                                                </button>
+                                                <button type="button" class="btn btn-danger">
+                                                    <svg id="i-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M2 30 L30 2 M30 30 L2 2" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">Assign and Schedule</div>
+                            <div class="card-body">
+                                <div class="scroll-box">
+                                    <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="1888" height="796" style="display: block; height: 398px; width: 944px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><br>
 
     </div><!-- /.container -->
 
 </div>
+
+<div class="push"></div>
 
 <!-- FOOTER -->
 <footer th:insert="fragments/footer"></footer>
