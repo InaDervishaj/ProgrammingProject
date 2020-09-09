@@ -9,6 +9,7 @@ import de.hsba.bi.projectWork.user.User;
 import de.hsba.bi.projectWork.user.UserService;
 import de.hsba.bi.projectWork.web.task.TaskForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +34,8 @@ public class UserManagerController {
     // dashboard
     @GetMapping
     public String index(Model model) {
+        model.addAttribute("projects", projectService.findUsersProjects());
+        model.addAttribute("tasksAlmostDue", taskService.findAlmostDue());
         return "userManager/index";
     }
 
@@ -45,22 +48,22 @@ public class UserManagerController {
     }
 
 
-    @PostMapping("/setDueDate/{taskId}")
-    public String setDueDate(@PathVariable("taskId") Long taskId, BindingResult bindingResult) {
-        return "userManager/projects";
-    }
-
+    // view a task
     @GetMapping("/viewTask/{taskId}")
     public String viewTask(@PathVariable("taskId") Long taskId, Model model) {
         Task task = taskService.findById(taskId);
-        task.calcTotalTime();
+        task.calcDaysLeft();
+
         model.addAttribute("task", task);
+        model.addAttribute("assignee", new User());
         model.addAttribute("taskForm", new TaskForm());
         model.addAttribute("project", projectService.findById(task.getProject().getId()));
         model.addAttribute("remainingStatuses", taskService.findRemainingStatuses(taskId));
         return "userManager/viewTask";
     }
 
+
+    // edit a task
     @PostMapping("/editTask/{taskId}")
     public String update(@PathVariable("taskId") Long taskId, @ModelAttribute("taskForm") @Valid TaskForm form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -69,6 +72,18 @@ public class UserManagerController {
         taskService.editTask(taskId, form);
         return "redirect:/userManager/viewTask/" + taskId;
     }
+
+    @PostMapping("/setAssignee/{taskId}")
+    public String setAssignee(@PathVariable("taskId") Long taskId, @ModelAttribute("assignee") User assignee,  BindingResult bindingResult) {
+        taskService.setAssignee(taskId, assignee);
+        return "redirect:/userManager/viewTask/" + taskId;
+    }
+
+    @PostMapping("/setDueDate/{taskId}")
+    public String setDueDate(@PathVariable("taskId") Long taskId, @RequestParam String date, BindingResult bindingResult) {
+        return "redirect:/userManager/viewTask/" + taskId;
+    }
+
 
     @PostMapping("/deleteBookedTime")
     public String deleteBookedTime(@RequestParam("taskId") Long taskId, @RequestParam("bookingId") Long bookingId) {

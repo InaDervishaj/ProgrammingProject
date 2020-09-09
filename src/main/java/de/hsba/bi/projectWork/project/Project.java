@@ -44,4 +44,15 @@ public class Project {
         this.name = name;
     }
 
+    public int findTasks(String status) {
+        List<Task> allTasks = this.getTasks();
+        List<Task> tasks = new ArrayList<>();
+        for (Task task : allTasks) {
+            if (task.getStatus().equals(status)) {
+                tasks.add(task);
+            }
+        }
+        return tasks.size();
+    }
+
 }

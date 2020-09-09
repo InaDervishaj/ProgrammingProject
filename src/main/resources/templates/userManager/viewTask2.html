@@ -151,17 +151,7 @@
                                                 Due Date
                                             </th>
                                             <td>
-                                                <small class="dropdown">
-                                                    <button th:text="${task.getDueDate()}" class="btn" type="button" id="dropdownMenuButton5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton5">
-                                                        <form th:action="@{/userManager/setDueDate/__${task.getId()}__}" method="post">
-                                                            <div class="dropdown-item">
-                                                                <input class="datepicker form-control" data-val="true" data-val-date="The field DateTakenFrom must be a date." name="dueDate" type="date" value="03/17/2014">
-                                                                <button type='submit' class='btn btn-xs btn-success save' value='Save'>Save</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </small>
+                                                <input class="datepicker form-control" data-val="true" data-val-date="The field DateTakenFrom must be a date." name="Criteria.DateTakenFrom" type="date" value="03/17/2014">
                                             </td>
                                         </tr>
                                         <tr>
@@ -172,11 +162,15 @@
                                                 <label for="status">Status</label>
                                             </th>
                                             <td>
+                                                <select th:field="*{task.status}" class="form-control" id="status">
+                                                    <option th:each="remainingStatus : ${remainingStatuses}" th:text="${remainingStatus}" th:selected="${task.status}" th:value="${remainingStatus}"></option>
+                                                </select>
+
                                                 <small class="dropdown">
                                                     <button th:text="${task.getStatus()}" class="btn" type="button" id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                                                         <form th:action="@{/userManager/setAssignee/__${task.getId()}__}" method="post">
-                                                            <div>
+                                                            <div class="dropdown-item">
                                                                 <select th:field="*{task.status}" class="form-control" id="status">
                                                                     <option th:each="remainingStatus : ${remainingStatuses}" th:text="${remainingStatus}" th:selected="${task.status}" th:value="${remainingStatus}"></option>
                                                                 </select>
@@ -185,18 +179,17 @@
                                                         </form>
                                                     </div>
                                                 </small>
+
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row"></th>
                                             <td>
                                                 <div class="progress">
-                                                    <div th:if="${task.getDaysLeft() < 0}" class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    <div th:if="${task.getDaysLeft() == 0}" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    <div th:if="${task.getDaysLeft() > 0}" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    <div th:if="${task.getDaysLeft() > 0}" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <br>
+                                                    <div class="progress-bar" role="progressbar" th:attr="style='width: '+ 100 / ${task.estimation} * ${task.totalTime} +'%', aria-valuenow=${task.totalTime}, aria-valuemax=${task.estimation}" aria-valuemin="0"></div>
                                                 </div>
-                                                <small th:text="${task.getDaysLeft()} + ' days left'"></small>
+                                                <small th:text="${task.totalTime} + ' from ' + ${task.estimation} + ' initially estimated hours used'"></small>
                                             </td>
                                         </tr>
                                     </table>
@@ -219,17 +212,7 @@
                                             Estimated Effort
                                         </th>
                                         <td>
-                                            <small class="dropdown">
-                                                <button th:text="${task.getEstimation() + ' hours'}" class="btn" type="button" id="dropdownMenuButton6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton6">
-                                                    <form th:action="@{/userManager/setAssignee/__${task.getId()}__}" method="post">
-                                                        <div class="dropdown-item">
-                                                            <input class="datepicker form-control" type="number">
-                                                            <button type='submit' class='btn btn-xs btn-success save' value='Save'>Save</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </small>
+                                            <input th:field="*{task.estimation}" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                                         </td>
                                     </tr>
                                     <tr>
@@ -241,9 +224,7 @@
                                             Invested Effort
                                         </th>
                                         <td>
-                                            <small>
-                                                <button th:text="${task.getTotalTime() + ' hours'}" class="btn" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                            </small>
+                                            <div th:text="${task.getTotalTime() + ' hours'}" class="form-control" aria-describedby="basic-addon1" style="border: transparent"></div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -353,4 +334,3 @@
 
 </body>
 </html>
-

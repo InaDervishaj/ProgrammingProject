@@ -27,10 +27,10 @@
                             <div class="card-body">
                                 <div class="scroll-box">
                                     <div class="container">
-                                        <div>
-                                            <div>Project 1</div>
+                                        <div th:each="project : ${projects}">
+                                            <div th:text="${project.getName()}"></div>
                                             <div class="progress">
-                                                <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar" role="progressbar" th:attr="style='width: '+100/${project.getTasks().size()}*${project.findTasks('Done')}+'%', aria-valuenow=${project.findTasks('Done')}, aria-valuemax=${project.getTasks().size()}" aria-valuemin="0"></div>
                                             </div>
                                             <p></p>
                                         </div>
@@ -66,37 +66,19 @@
                             <div class="card-body">
                                 <div class="scroll-box">
                                     <div class="list-group">
-                                        <a href="#" class="list-group-item list-group-item-action">
+                                        <a th:each="taskAlmostDue : ${tasksAlmostDue}" th:attr="href='viewTask/' + ${taskAlmostDue.getId()}" href="#" class="list-group-item list-group-item-action">
                                             <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">Present our company on Kununu</h5>
-                                                <small>Amazing HR Strategy</small>
+                                                <h5 class="mb-1" th:text="${taskAlmostDue.getName()}"></h5>
+                                                <small th:if="${taskAlmostDue.getDaysLeft() > 0}" th:text="${taskAlmostDue.getDaysLeft()} + ' days left'" style="color: green"></small>
+                                                <small th:if="${taskAlmostDue.getDaysLeft() == 0}" th:text="'Due today!'" style="color: yellow"></small>
+                                                <small th:if="${taskAlmostDue.getDaysLeft() < 0}" th:text="${taskAlmostDue.getDaysLeft()} + ' days left'" style="color: red"></small>
                                             </div>
-                                            <p class="mb-1">Kununu is a website where employees can rate their employer. I heard that nowadays many jobseekers search potential employers via Kununu so being present there might make sense.</p>
-                                            <small class="text-muted">Assigned to sandra</small>
-                                        </a>
-                                        <a href="#" class="list-group-item list-group-item-action">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">Consider refurbishing the bathrooms</h5>
-                                                <small class="text-muted">Renovate the Office</small>
+                                            <div>
+                                                <small th:text="${taskAlmostDue.getProject().getName()}"></small>
+                                                <small th:if="${taskAlmostDue.getAssignee() != null}" th:text="' - assigned to ' + ${taskAlmostDue.getAssignee()}" class="text-muted"></small>
+                                                <small th:if="${taskAlmostDue.getAssignee() == null}" th:text="' - not assigned'" class="text-muted"></small>
                                             </div>
-                                            <p class="mb-1">The bathrooms have lastly been renovated in 2000... Because currently everything is being renovated no one uses them anyway so it makes sense to carry out a renovation. </p>
-                                            <small class="text-muted">Assigned to mario.</small>
-                                        </a>
-                                        <a href="#" class="list-group-item list-group-item-action">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">Get another Offer for Parquet Installation</h5>
-                                                <small class="text-muted">Renovate the Office</small>
-                                            </div>
-                                            <p class="mb-1">Wonderful Floors inc. cancelled on us so that we have to find another firm that can do the job.</p>
-                                            <small class="text-muted">Assigned to daniel</small>
-                                        </a>
-                                        <a href="#" class="list-group-item list-group-item-action">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">Offer Internships</h5>
-                                                <small class="text-muted">Amazing HR Strategy</small>
-                                            </div>
-                                            <p class="mb-1">At the moment we do not offer pupils or students the opportunity to make an internship in one of our departsments. However, this could be highly beneficial in order to attract young and qualified personnel!</p>
-                                            <small class="text-muted">Assigned to brigitte</small>
+                                            <p class="mb-1" th:text="${taskAlmostDue.getDescription()}"></p>
                                         </a>
                                     </div>
                                 </div>

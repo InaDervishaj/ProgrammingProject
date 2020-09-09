@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,6 +87,30 @@ public class TaskService {
         return remainingStatuses;
     }
 
+    public List<Task> findAlmostDue() {
+        List<Task> tasks = this.findAll();
+
+        if (tasks.size() > 0) {
+
+            // remove Tasks with unset dueDate
+            for (Task task : tasks) {
+                if (task.getDueDate() == null) {
+                    tasks.remove(task);
+                }
+            }
+
+            // calc daysLeft
+            for (Task task: tasks) {
+                task.calcDaysLeft();
+            }
+
+            // sort tasks by date
+            Collections.sort(tasks);
+
+        }
+        return tasks;
+    }
+
     public void save(Task task) {
         taskRepository.save(task);
     }
@@ -105,11 +130,18 @@ public class TaskService {
         return task;
     }
 
+    // edit task methods
     public void editTask(Long taskId, TaskForm form) {
         // TODO Als Entwickler in einem Projekt kann ich eine Zeitschätzung (grob in Stunden) in einer Aufgabe speichern (diese Schätzung soll eine Eigenschaft der Aufgabe sein - verschiedene Entwickler würden diese Schätzung sehen und ändern dürfen)
         // TODO Als Entwickler in einem Projekt kann ich den Status einer Aufgabe ändern (Idee, Geplant, in Bearbeitung, im Test, Fertig)
         Task task = this.findById(taskId);
         this.save(taskFormConverter.update(task, form));
+    }
+
+    public void setAssignee(Long taskId, User assignee) {
+        Task task = this.findById(taskId);
+        task.setAssignee(assignee);
+        this.save(task);
     }
 
     public boolean checkStatusValidity(Task task) {

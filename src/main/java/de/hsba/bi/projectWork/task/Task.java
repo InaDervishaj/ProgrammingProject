@@ -3,16 +3,19 @@ package de.hsba.bi.projectWork.task;
 import de.hsba.bi.projectWork.project.Project;
 import de.hsba.bi.projectWork.user.User;
 import lombok.*;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
-public class Task {
+public class Task implements Comparable<Task>{
 
     @Id
     @GeneratedValue
@@ -24,6 +27,8 @@ public class Task {
     private int totalTime;
     private String status;
     private LocalDate dueDate;
+    @Transient
+    private int daysLeft;
     //private Enum<Status> status;
 
     @ManyToOne(optional = false)
@@ -64,11 +69,28 @@ public class Task {
         return sum;
     }
 
-    public Task(String name, String description, int estimation, String status) {
+    public Task(String name, String description, int estimation, String status, String dueDate) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(dueDate, dateTimeFormatter);
+
         this.name = name;
         this.description = description;
         this.estimation = estimation;
         this.status = status;
+        this.dueDate = localDate;
     }
 
+    public void calcDaysLeft() {
+        LocalDate dueDate = this.dueDate;
+        LocalDate todaysDate = LocalDate.now();
+        Period period;
+
+        period = Period.between(todaysDate, dueDate);
+        this.daysLeft = period.getDays();
+    }
+
+    @Override
+    public int compareTo(Task task) {
+        return getDueDate().compareTo(task.getDueDate());
+    }
 }
