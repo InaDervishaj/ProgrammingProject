@@ -1,9 +1,6 @@
-package de.hsba.bi.projectWork.web.user;
+package de.hsba.bi.projectwork.web.user;
 
-import de.hsba.bi.projectWork.user.annotations.PasswordMatches;
-import de.hsba.bi.projectWork.user.annotations.UserAlreadyExist;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
@@ -15,8 +12,6 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@PasswordMatches
-@UserAlreadyExist
 public class RegisterUserForm {
 
     @NotEmpty(message = "Please enter a username.")

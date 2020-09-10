@@ -1,20 +1,19 @@
-package de.hsba.bi.projectWork.web;
+package de.hsba.bi.projectwork.web;
 
-import de.hsba.bi.projectWork.web.user.ChangePasswordForm;
-import de.hsba.bi.projectWork.user.User;
-import de.hsba.bi.projectWork.user.UserService;
-import de.hsba.bi.projectWork.web.exception.IncorrectPasswordException;
-import de.hsba.bi.projectWork.web.exception.UserAlreadyExistException;
-import de.hsba.bi.projectWork.web.user.RegisterUserForm;
+import de.hsba.bi.projectwork.user.User;
+import de.hsba.bi.projectwork.user.UserService;
+import de.hsba.bi.projectwork.web.user.RegisterUserForm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
@@ -69,43 +68,13 @@ public class IndexController {
                 model.addAttribute("user", userForm);
                 model.addAttribute("message", "You've successfully registered.");
                 return "login";
-            } catch (UserAlreadyExistException uaeEx) {
+            } catch (Exception exception) {
                 model.addAttribute("user", userForm);
                 return "register";
             }
         }
         model.addAttribute("user", userForm);
         return "register";
-    }
-
-
-    // Als Nutzer kann ich mein Passwort ändern
-    @GetMapping("/account")
-    public String account(Model model) {
-        model.addAttribute("user", userService.findCurrentUser());
-        model.addAttribute("changePasswordForm", new ChangePasswordForm());
-        return "account";
-    }
-
-    @PreAuthorize("hasRole(authenticated)")
-    @PostMapping("/changePassword")
-    public String changePassword(@ModelAttribute("changePasswordForm") @Valid ChangePasswordForm changePasswordForm, BindingResult bindingResult, Model model) {
-        if (!bindingResult.hasErrors()) {
-            try {
-                ChangePasswordForm changedPassword = userService.changePassword(changePasswordForm);
-                model.addAttribute("user", userService.findCurrentUser());
-                model.addAttribute("changePasswordForm", changePasswordForm);
-                model.addAttribute("message", "You've successfully changed your password.");
-                return "account";
-            } catch (IncorrectPasswordException ipEx) {
-                model.addAttribute("user", userService.findCurrentUser());
-                model.addAttribute("changePasswordForm", changePasswordForm);
-                return "account";
-            }
-        }
-        model.addAttribute("user", userService.findCurrentUser());
-        model.addAttribute("changePasswordForm", changePasswordForm);
-        return "account";
     }
 
 }
